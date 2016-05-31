@@ -19,8 +19,10 @@ public class FirstBall {
         }
         for(int i = 0;i<6;i++){
             for(int j = 1;j<6;j++){
-                number[i][j] = random.nextInt(6);                
+                number[i][j] = random.nextInt(6);
+                System.out.print(number[i][j]+" ");
             }            
+            System.out.println();
         }
     }
     

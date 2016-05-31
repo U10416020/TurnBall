@@ -1,17 +1,14 @@
 package TurnBall;
 
-import java.security.SecureRandom;
-
 public class CheckBall {
-    int[][] number = new int[13][7];   
-    
-    SecureRandom random = new SecureRandom();
+    int[][] number = new int[13][7];      
     int[][] record = new int[13][7];
-    CheckBall(int[][] newNumber){
-        number = newNumber;
-        setBall();
+    
+    CheckBall(){        
     }
-    void setBall(){
+    
+    void setBall(int[][] newNumber){
+        number = newNumber;
         int countV = 0,countH=0;
         for(int j = 1; j<6;j++){
             for(int i = 6;i<12;i++){
@@ -53,7 +50,8 @@ public class CheckBall {
         }
     }
     
-    int[][] getNumber(){
+    int[][] getNumber(int[][] newNumber){
+        setBall(newNumber);
         return number;
     }
 }

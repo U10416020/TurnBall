@@ -7,6 +7,8 @@ import javafx.scene.layout.Pane;
 public class AllPane extends Pane{
 
     Image[] picture = new Image[7];
+    Image[] changePicture = new Image[6];
+    
     AllPane(){        
         picture[0] = new Image("/image/red.png", 97, 97, false, false);
         picture[1] = new Image("/image/yellow.png", 97, 97, false, false);
@@ -15,6 +17,14 @@ public class AllPane extends Pane{
         picture[4] = new Image("/image/purple.png", 97, 97, false, false);
         picture[5] = new Image("/image/pink.png", 97, 97, false, false);
         picture[6] = new Image("/image/empty.png", 97, 97, false, false);       
+        
+        changePicture[0] = new Image("/image/change/red.png", 97, 97, false, false);
+        changePicture[1] = new Image("/image/change/yellow.png", 97, 97, false, false);
+        changePicture[2] = new Image("/image/change/blue.png", 97, 97, false, false);
+        changePicture[3] = new Image("/image/change/green.png", 97, 97, false, false);
+        changePicture[4] = new Image("/image/change/purple.png", 97, 97, false, false);
+        changePicture[5] = new Image("/image/change/pink.png", 97, 97, false, false);
+        
         
         ImageView buttom = new ImageView(new Image("/image/buttom.png",535,610,false,false));
         ImageView up = new ImageView(new Image("/image/up.png"));
