@@ -1,13 +1,18 @@
 package TurnBall;
 
 public class CheckBall {
-    int[][] number = new int[13][7];      
-    int[][] record = new int[13][7];
+    private int[][] number = new int[13][7];      
+    private int[][] record = new int[13][7];
     
-    CheckBall(){        
+    public CheckBall(){        
     }
     
-    void setBall(int[][] newNumber){
+    public void setBall(int[][] newNumber){
+        for(int i = 0;i<13;i++){
+            for(int j = 0;j<7;j++){
+                record[i][j]=0;
+            }
+        }
         number = newNumber;
         int countV = 0,countH=0;
         for(int j = 1; j<6;j++){
@@ -24,7 +29,7 @@ public class CheckBall {
         change();
     }
     
-    void change(){
+    public void change(){
         for(int i = 6;i<12;i++){
             for(int j = 1;j<6;j++){
                 if(record[i][j]==1){
@@ -34,7 +39,7 @@ public class CheckBall {
         }
     }
     
-    void V(int i ,int j){
+    public void V(int i ,int j){
         if(number[i][j]==number[i+1][j]&&number[i][j]==number[i-1][j]){
             record[i][j]=1;
             record[i-1][j]=1;
@@ -42,7 +47,7 @@ public class CheckBall {
         }
     }
     
-    void H(int i ,int j){
+    public void H(int i ,int j){
         if(number[i][j]==number[i][j+1]&&number[i][j]==number[i][j-1]){
             record[i][j]=1;
             record[i][j-1]=1;
@@ -50,8 +55,9 @@ public class CheckBall {
         }
     }
     
-    int[][] getNumber(int[][] newNumber){
+    public int[][] getNumber(int[][] newNumber){
         setBall(newNumber);
         return number;
     }
+    
 }

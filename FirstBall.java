@@ -3,10 +3,10 @@ package TurnBall;
 import java.security.SecureRandom;
 
 public class FirstBall {
-    int[][] number = new int[13][7];    
-    SecureRandom random = new SecureRandom();
+    private int[][] number = new int[13][7];    
+    private SecureRandom random = new SecureRandom();
     
-    FirstBall(){     
+    public FirstBall(){     
         setFirstUpBall();
         setFirstDownBall();
     }
@@ -19,10 +19,8 @@ public class FirstBall {
         }
         for(int i = 0;i<6;i++){
             for(int j = 1;j<6;j++){
-                number[i][j] = random.nextInt(6);
-                System.out.print(number[i][j]+" ");
-            }            
-            System.out.println();
+                number[i][j] = random.nextInt(6);                
+            }
         }
     }
     
@@ -74,7 +72,7 @@ public class FirstBall {
         }
     }
     
-    int[][] getNumber(){
+    public int[][] getNumber(){
         return number;
     }
 }

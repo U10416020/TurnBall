@@ -14,23 +14,24 @@ import javafx.stage.Stage;
 
 public class TurnBall extends Application {
     //剪貼簿    
-    ClipboardContent content = new ClipboardContent();
-    ImageView first = new ImageView();        
-    int[][] number = new int[13][7];
-    int[][] record = new int[13][7];
-    ImageView[][] ball = new ImageView[6][5];
-    ImageView[][] ball2 = new ImageView[6][5];
-    double changeX,changeY, exChangeX, exChangeY;
-    int sizeX = 510, sizeY=15,fit=97;
-    //CheckBall checkBall;
+    private ClipboardContent content = new ClipboardContent();
+    private ImageView first = new ImageView();        
+    private int[][] number = new int[13][7];
+    private int[][] record = new int[13][7];
+    private ImageView[][] ball = new ImageView[12][5];    
+    private double changeX,changeY, exChangeX, exChangeY;
+    private int sizeX = 510, sizeY=5,fit=97;
+    
     AllPane pane;
+    FirstBall firstBall;
     CheckBall checkBall;
     DownBall downBall;
+    
     @Override
     public void start(Stage primaryStage) {
         pane = new AllPane();
         pane.setStyle("-fx-background-color: black;");
-        FirstBall firstBall = new FirstBall();   
+        firstBall = new FirstBall();   
         
         ImageView test = new ImageView();
         test.setImage(pane.picture[0]);
@@ -40,57 +41,56 @@ public class TurnBall extends Application {
         pane.getChildren().add(test);
                 
         number = firstBall.getNumber();        
+        System.out.println();
         
-        for(int i = 0;i<6;i++){
+        for(int i = 0;i<12;i++){
             for(int j = 0;j<5;j++){                
                 ball[i][j] = new ImageView();
-                ball[i][j].setImage(pane.picture[number[i+6][j+1]]);
+                ball[i][j].setImage(pane.picture[number[i][j+1]]);
                 ball[i][j].setFitHeight(fit);
-                ball[i][j].setFitWidth(fit);
-                ball[i][j].setX(sizeX+j*fit);
-                ball[i][j].setY(sizeY+i*fit);                
-                ball[i][j].addEventHandler(MouseEvent.DRAG_DETECTED,onDragDetectedEventHandler);
-                ball[i][j].addEventHandler(DragEvent.DRAG_DONE,onDragDoneEventHandler);
-                ball[i][j].addEventHandler(DragEvent.DRAG_OVER,onDragOverEventHandler);
+                ball[i][j].setFitWidth(fit); 
+                
                 pane.getChildren().add(ball[i][j]);
-                System.out.print(number[i+6][j+1]+" ");
+                System.out.print(number[i][j+1]+" ");
+                
+                if(i >=6){
+                    ball[i][j].setX(sizeX+j*fit);
+                    ball[i][j].setY(sizeY+(i-6)*fit);
+                    ball[i][j].addEventHandler(MouseEvent.DRAG_DETECTED,onDragDetectedEventHandler);
+                    ball[i][j].addEventHandler(DragEvent.DRAG_DONE,onDragDoneEventHandler);
+                    ball[i][j].addEventHandler(DragEvent.DRAG_OVER,onDragOverEventHandler);
+                } 
+                else{
+                    ball[i][j].setX(sizeX+j*fit);
+                    ball[i][j].setY(0-(6-i)*fit);
+                }
             }
             System.out.println();
         }
         
-        for(int i = 0;i<6;i++){
-            for(int j = 0;j<5;j++){
-                ball2[i][j] = new ImageView();
-                ball2[i][j].setImage(pane.picture[number[i][j+1]]);
-                ball2[i][j].setFitHeight(fit);
-                ball2[i][j].setFitWidth(fit);
-                ball2[i][j].setX(sizeX+j*fit);
-                ball2[i][j].setY(0-(6-i)*fit);
-                pane.getChildren().add(ball2[i][j]);
-            }
-        }
-        
-        Scene scene = new Scene(pane, 1030, 600);
-        
+        Scene scene = new Scene(pane, 1030, 600);        
         primaryStage.setTitle("Tower Of Saviors");        
         primaryStage.setScene(scene);
         primaryStage.show();
     }
     
-    void inverse(){
-        for(int i = 0;i<6;i++){
+    public void inverse(){
+        System.out.println("Inverse: ");
+        for(int i = 6;i<12;i++){
             for(int j = 0;j<5;j++){   
                 ball[i][j].setX(sizeX+j*fit);
-                ball[i][j].setY(sizeY+i*fit);  
-                ball[i][j].setImage(pane.picture[number[i+6][j+1]]);
+                ball[i][j].setY(sizeY+(i-6)*fit);  
+                ball[i][j].setImage(pane.picture[number[i][j+1]]);
+                System.out.print(number[i][j+1]+" ");
             }
+            System.out.println();
         }
     }
     
     //偵測拖曳事件(來源)
     EventHandler onDragDetectedEventHandler = new EventHandler<MouseEvent>() {
         @Override
-        public void handle(MouseEvent event) {
+        public void handle(MouseEvent event) {            
             System.out.println("Detected");
             first = (ImageView)event.getSource();      
             
@@ -117,31 +117,34 @@ public class TurnBall extends Application {
         public void handle(DragEvent event) {
             System.out.println("DragDone");
             
-            //vertical();
+            checkBall = new CheckBall(); 
             
-            checkBall = new CheckBall();            
             number = checkBall.getNumber(number);
-            
-            inverse();           
-            
-            downBall = new DownBall(number,ball,ball2,fit);
-            
+            inverse();            
+            downBall = new DownBall(number,ball,fit);            
+                            
             number = downBall.getNumber();
             
+            System.out.println("ChangeBall: ");
             for(int i = 6;i<12;i++){
+                for(int j = 1;j<6;j++){
+                    System.out.print(number[i][j]+" ");
+                }
+                    System.out.println();
+            }
+            
+            firstBall.setFirstUpBall();
+            number = firstBall.getNumber();
+            System.out.println("Random:");
+            for(int i = 0;i<12;i++){
                 for(int j = 1;j<6;j++){
                     System.out.print(number[i][j]+" ");
                 }
                 System.out.println();
             }
             
-            //inverse();
+            ImageView source = (ImageView)event.getSource();
             
-            //if(event.getTransferMode()==TransferMode.MOVE){
-                ImageView source = (ImageView)event.getSource();
-                //source.setImage(content1.getImage());
-                
-            //}
             event.consume();
         }
     };
@@ -176,8 +179,6 @@ public class TurnBall extends Application {
                     }
                 }
                 
-                System.out.println("exChange I: " + i +" J: " + j+1 + " number: " + number[i+1][j+1]);
-                
                 i = 6+(int)(changeY-sizeY)/fit;
                 j = (int)(changeX-sizeX)/fit;                
                 
@@ -186,16 +187,6 @@ public class TurnBall extends Application {
                         number[i][j+1] = k;
                     }
                 }
-                
-                System.out.println("Change I: " + i +" J: " + j+1 + " number: " +number[i][j+1]);
-                
-                for( i = 6;i<12;i++){
-            for( j = 1;j<6;j++){
-                System.out.print(number[i][j]+" ");
-            }
-            System.out.println();
-        }
-                
             }
             event.consume();            
         }
